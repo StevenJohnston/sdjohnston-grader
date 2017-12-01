@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron' // eslint-disable-line
+import { app, BrowserWindow, Menu, shell} from 'electron' // eslint-disable-line
 
 /**
  * Set `__static` path to static files in production
@@ -18,11 +18,82 @@ function createWindow() {
    * Initial window options
    */
   mainWindow = new BrowserWindow({
-    height: 563,
+    height: 800,
     useContentSize: true,
-    width: 1000,
+    width: 1400,
   });
 
+  const template = [
+    {
+      role: 'window',
+      label: 'File',
+      submenu: [
+        {
+          role: 'minimize',
+        },
+        {
+          role: 'close',
+        },
+      ],
+    },
+    {
+      label: 'Edit',
+      submenu: [
+        {
+          role: 'undo',
+        },
+        {
+          role: 'redo',
+        },
+        {
+          type: 'separator',
+        },
+        {
+          role: 'cut',
+        },
+        {
+          role: 'copy',
+        },
+        {
+          role: 'paste',
+        },
+        {
+          role: 'pasteandmatchstyle',
+        },
+        {
+          role: 'delete',
+        },
+        {
+          role: 'selectall',
+        },
+      ],
+    },
+    {
+      role: 'help',
+      submenu: [
+        {
+          label: 'Learn More',
+          click() {
+            shell.openExternal('https://google.ca');
+          },
+        },
+        {
+          label: 'Documentation',
+          click() {
+            shell.openExternal('https://google.ca');
+          },
+        },
+        {
+          label: 'Community Discussions',
+          click() {
+            shell.openExternal('https://google.ca');
+          },
+        },
+      ],
+    },
+  ];
+  const menu = Menu.buildFromTemplate(template);
+  Menu.setApplicationMenu(menu);
   mainWindow.loadURL(winURL);
 
   mainWindow.on('closed', () => {
